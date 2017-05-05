@@ -5,15 +5,6 @@
 var builder = require("botbuilder");
 
 module.exports = function (intents, bot) {
-    intents.matches(/^change name/i, [
-        function (session) {
-            session.beginDialog('/profile');
-        },
-        function (session) {
-            session.send('Ok... Changed your name to %s', session.userData.name);
-        }
-    ]);
-
     intents.onDefault([
         function (session, args, next) {
             if(!session.userData.name)
@@ -22,13 +13,22 @@ module.exports = function (intents, bot) {
                 next();
         },
         function (session, results) {
-            session.send('Hello %s!', session.userData.name);
+            session.send('Dag %s!', session.userData.name);
+        }
+    ]);
+
+    intents.matches(/^wijzig naam/i, [
+        function (session) {
+            session.beginDialog('/profile');
+        },
+        function (session) {
+            session.send('Oke, ik heb je naam veranderd naar %s.', session.userData.name);
         }
     ]);
 
     bot.dialog('/profile', [
         function (session) {
-            builder.Prompts.text(session, 'Hi! What is your name?');
+            builder.Prompts.text(session, 'Hallo, wat is jouw naam?');
         },
         function (session, results) {
             session.userData.name = results.response;
