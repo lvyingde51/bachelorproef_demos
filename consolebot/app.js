@@ -7,4 +7,5 @@ var bot = new builder.UniversalBot(connector);
 var intents = new builder.IntentDialog();
 bot.dialog('/', intents);
 
-require('./intents')(intents, bot);
+require('./intents')(intents);
+require('./dialogs')(bot);

@@ -4,7 +4,7 @@
 'use strict';
 var builder = require("botbuilder");
 
-module.exports = function (intents, bot) {
+module.exports = function (intents) {
     intents.onDefault([
         function (session, args, next) {
             if(!session.userData.name)
@@ -23,16 +23,6 @@ module.exports = function (intents, bot) {
         },
         function (session) {
             session.send('Oke, ik heb je naam veranderd naar %s.', session.userData.name);
-        }
-    ]);
-
-    bot.dialog('/profile', [
-        function (session) {
-            builder.Prompts.text(session, 'Hallo, wat is jouw naam?');
-        },
-        function (session, results) {
-            session.userData.name = results.response;
-            session.endDialog();
         }
     ]);
 };
