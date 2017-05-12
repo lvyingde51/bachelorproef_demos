@@ -8,7 +8,7 @@ var builder = require("botbuilder");
 module.exports = function (bot) {
     bot.dialog('/profile', [
         function (session) {
-            builder.Prompts.text(session, 'chatbot: Hallo, wat is jouw naam?');
+            builder.Prompts.text(session, 'Hallo, wat is jouw naam?');
         },
         function (session, results) {
             session.userData.name = results.response;
@@ -24,16 +24,23 @@ module.exports = function (bot) {
                 next();
         },
         function (session) {
-            session.endDialog('chatbot: Dag %s!', session.userData.name);
+            session.endDialog('Dag %s!', session.userData.name);
         }
     ]);
 
     bot.dialog('/changeName', [
-        function (session) {
+        function (session, args, next) {
+            if(args){
+                var name = builder.EntityRecognizer.findEntity(args.entities, 'name');
+            }
+            if(name){
+                session.userData.name = name.entity;
+                return next();
+            }
             session.beginDialog('/profile');
         },
         function (session) {
-            session.endDialog('chatbot: Oke, ik heb je naam veranderd naar %s.', session.userData.name);
+            session.endDialog('Oke, ik heb je naam veranderd naar %s.', session.userData.name);
         }
     ]);
 };
