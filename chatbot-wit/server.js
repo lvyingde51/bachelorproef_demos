@@ -5,24 +5,26 @@ var express = require('express'),
     https = require('https'),
     builder = require('botbuilder'),
     fs = require('fs'),
-    config = require('./app/config/config');
+    config = require('./app/config/config'),
+    middleware = require('./app/middelware/ChatbotMiddleware'),
+    app = express(),
+    WitAiService = require('./app/services/WitService');
 
-var app = express();
-
+global.config = require('./app/config/config');
 // Creating the chat bot and hooking up with microsoft framework
 var connector = new builder.ChatConnector({
   appId: '81b40661-9619-4462-9ed1-e245db9957ae',
   appPassword: 'xnhheUBinkcBavA4ExMjvFp'
 });
 var bot = new builder.UniversalBot(connector);
-var model = config.luis;
-var recognizer = new builder.LuisRecognizer(model);
-var intents = new builder.IntentDialog({ recognizers: [recognizer] });
-
+var intents = new builder.IntentDialog();
 bot.dialog('/', intents);
 
 require('./app/intents/intents')(intents);
+bot.use(middleware);
 require('./app/conversations/dialogs')(bot);
+
+
 // var conversation_path = __dirname + '/app/conversations';
 // fs.readdirSync(conversation_path).forEach(function (file) {
 //
@@ -34,6 +36,7 @@ require('./app/config/express')(app, global.config);
 
 // Bootstrap routes
 require('./app/config/routes')(app, connector);
+global.witService = new WitAiService();
 
 var port = process.env.PORT || '1337';
 

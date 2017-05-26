@@ -5,6 +5,5 @@
 var builder = require("botbuilder");
 
 module.exports = function (intents) {
-    intents.matches('Greeting', '/greeting');
-    intents.matches('ChangeName', '/changeName')
+    intents.onDefault('/greeting');
 };
