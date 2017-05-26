@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2e8a8d3b-291d-4dbe-9ae0-513a46c8bea2" name="bpBot" url="http://34.249.243.91">
+        <fileTransfer host="34.249.243.91" port="22" privateKey="C:\Users\stijn\.ssh\KriskiDevelopment.pem" accessType="SFTP" username="ubuntu" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
